@@ -1,0 +1,5 @@
+package pusher
+
+func Main() {
+
+}
