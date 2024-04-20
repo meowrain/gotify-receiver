@@ -100,14 +100,15 @@ func Main() {
 						_ = ws.Close()
 					}
 
-					log.Println("尝试断线重连...")
+					logger.Log().Warnf("尝试断线重连...")
 					ws, err = wsBuilder()
 					if err != nil {
-						log.Println("ws 重连异常:", err)
+						logger.Log().Errorf("ws 重连异常: %s, 3秒后重试...", err)
 						hasError = true
 						time.Sleep(time.Second * 3)
 					} else {
 						hasError = false
+						logger.Log().Warnf("ws 断线重连成功")
 						break
 					}
 				}
@@ -123,13 +124,13 @@ func Main() {
 			for {
 				_, rawMessage, err := ws.ReadMessage()
 				if err != nil {
-					log.Println("ws 消息接收异常:", err)
+					logger.Log().Errorf("ws 消息接收异常: %s", err)
 					hasError = true
 					preHandler()
 					continue
 				}
 
-				log.Printf("recv: %s", rawMessage)
+				logger.Log().Debugf("接收 ws 消息: %s", rawMessage)
 				data := &client.GotifyMessage{}
 				_ = json.Unmarshal(rawMessage, data)
 				message := fmt.Sprintf("%s", data.Message)
