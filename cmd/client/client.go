@@ -38,7 +38,7 @@ var notification = toast.Notification{
 
 var conf = new(config.Config)
 
-func Main() {
+func readConfig() error {
 	viper.SetConfigName(constants.ConfigFileName)
 	viper.SetConfigType(constants.ConfigType)
 	for _, path := range constants.ConfigPaths {
@@ -53,7 +53,11 @@ func Main() {
 		}
 	}
 
-	err := viper.Unmarshal(conf)
+	return viper.Unmarshal(conf)
+}
+
+func Main() {
+	err := readConfig()
 	if err != nil {
 		logger.Log().Fatalf("配置文件解析失败: %s, 请检查配置是否有误", err)
 	}
