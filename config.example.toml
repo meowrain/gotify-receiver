@@ -1,0 +1,13 @@
+# gotify 服务端配置
+[Server]
+  # 服务端地址
+  Addr = ''
+  # 用户token(用于接收消息)
+  UserToken = ''
+
+# 应用配置(用于推送消息)
+[[Apps]]
+  # 应用token
+  AppToken = ''
+
+
